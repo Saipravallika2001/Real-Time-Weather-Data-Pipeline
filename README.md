@@ -1,4 +1,4 @@
-# 🌐 ClimaWatch: Real-Time City Weather Tracker
+# 🌐 Climate Watch: Real-Time Weather Data Pipeline
 
 A **Real-Time Weather Data Pipeline** that fetches live data from the OpenWeather API, streams it via Kafka, stores it in PostgreSQL, and displays insights on an interactive Streamlit dashboard.
 
@@ -23,23 +23,26 @@ A **Real-Time Weather Data Pipeline** that fetches live data from the OpenWeathe
 ---
 
 ## 📂 Project Structure
-weather_api.py          # FastAPI backend for serving latest weather data
-weather_producer.py     # Fetches weather data & pushes to Kafka
-weather_consumer.py     # Consumes Kafka data & stores in PostgreSQL
-dashboard.py            # Streamlit dashboard with alerts
-docker-compose.yaml     # Kafka, Zookeeper, PostgreSQL services
-requirements.txt        # Python dependencies
-cities.py               # List of cities to monitor
-architecture.png        # System architecture diagram
-README.md               # Project documentation
-.gitignore              # Git ignore rules
+weather_api.py        # FastAPI backend for serving latest weather data
+weather_producer.py   # Fetches weather data & pushes to Kafka
+weather_consumer.py   # Consumes Kafka data & stores in PostgreSQL
+dashboard.py          # Streamlit dashboard with alerts
+docker-compose.yaml   # Kafka, Zookeeper, PostgreSQL services
+requirements.txt      # Python dependencies
+cities.py             # List of cities to monitor
+architecture.png      # System architecture diagram
+.env.example          # Environment variables template
+README.md             # Project documentation
+.gitignore            # Git ignore rules
+
+---
 
 ## 🖼 Architecture
 
 ### PNG Diagram
 ![Architecture](architecture.png)
 
-### Mermaid Diagram (GitHub renders it)
+### Mermaid Diagram
 ```mermaid
 flowchart TB
   A[OpenWeather API] -->|Fetch every 10s| B[Kafka Producer<br/>weather_producer.py]
@@ -51,26 +54,19 @@ flowchart TB
 ⚙️ Setup Instructions
 1️⃣ Clone Repository
 bash
-Copy
-Edit
 git clone https://github.com/your-username/climawatch.git
 cd climawatch
 
 2️⃣ Create .env File
+Fill in values based on .env.example:
 env
-Copy
-Edit
 OPENWEATHER_API_KEY=your_openweather_api_key
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_DB=weather
 
-🐳 Run with Docker Compose
-This project includes a preconfigured docker-compose.yaml file that starts Apache Kafka, ZooKeeper, and PostgreSQL.
-
-Start Services
-bash
-Copy
-Edit
-docker-compose up -d
-Services started:
+3️⃣ Run with Docker Compose
+This project includes a preconfigured docker-compose.yaml file that starts:
 
 ZooKeeper (for Kafka)
 
@@ -78,27 +74,21 @@ Kafka broker (localhost:9092)
 
 PostgreSQL (localhost:5432)
 
-Check Containers
-bash
-Copy
-Edit
+Start Services:
+
+docker-compose up -d
+Check Containers:
+
 docker ps
-Access PostgreSQL
-bash
-Copy
-Edit
+Access PostgreSQL:
+
 docker exec -it postgres psql -U postgres -d weather
-Stop All Services
-bash
-Copy
-Edit
+Stop All Services:
+
 docker-compose down
 ▶ Run the Pipeline
-Once Docker services are up, run the components in separate terminals:
+Run each component in separate terminals:
 
-bash
-Copy
-Edit
 # Terminal 1: Producer
 python weather_producer.py
 
@@ -110,22 +100,6 @@ uvicorn weather_api:app --reload --port 5000
 
 # Terminal 4: Streamlit dashboard
 streamlit run dashboard.py
-📸 Screenshot
 
 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-Copy
-Edit
-
----
-
-This file already includes:
-- **Features**
-- **Tech stack**
-- **Project structure** (with each file and its purpose)
-- **Architecture** (PNG + Mermaid diagram)
-- **Setup and run instructions**
-- **Docker section**
-- **Screenshot placeholder**
-- **License section**
